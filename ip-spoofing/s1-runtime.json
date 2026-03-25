@@ -1,0 +1,45 @@
+{
+  "target": "bmv2",
+  "p4info": "build/ip-source-guard.p4info",
+  "bmv2_json": "build/ip-source-guard.json",
+  "table_entries": [
+    {
+      "table": "IngressProcess.estd_client",
+      "default_action": true,
+      "action_name": "IngressProcess.drop_spoof",
+      "action_params": { }
+    },
+    {
+      "table": "IngressProcess.estd_client",
+      "match": {
+        "hdr.ipv4.srcAddr": "10.0.1.1",
+        "hdr.ethernet.srcAddr": "00:00:00:00:01:01",
+        "standard_metadata.ingress_port": 1
+      },
+      "action_name": "IngressProcess.pkt_fwd_established",
+      "action_params": {
+        "dstAddr": "00:00:00:00:01:02",
+        "port": 2
+      }
+    },
+
+    {
+      "table": "IngressProcess.dhcp_client",
+      "default_action": true,
+      "action_name":"IngressProcess.drop_unbound_non_dhcp",
+      "action_params": { }
+    },
+    {
+      "table": "IngressProcess.dhcp_client",
+      "match": {
+        "hdr.ethernet.srcAddr": "00:00:00:00:01:01",
+        "standard_metadata.ingress_port": 1
+      },
+      "action_name": "IngressProcess.pkt_fwd_dhcp",
+      "action_params": {
+        "dstAddr": "00:00:00:00:01:02",
+        "port": 2
+      }
+    }  
+  ]
+}

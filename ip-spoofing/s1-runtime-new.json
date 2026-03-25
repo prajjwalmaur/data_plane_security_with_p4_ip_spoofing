@@ -1,0 +1,75 @@
+{
+  "target": "bmv2",
+  "p4info": "build/ip-spoofing-defense.p4info",
+  "bmv2_json": "build/ip-spoofing-defense.json",
+  "table_entries": [
+    {
+      "_comment": "Established Client Binding Table - Three-factor authentication",
+      "table": "IngressProcess.establish_binding",
+      "default_action": true,
+      "action_name": "IngressProcess.drop_spoofed",
+      "action_params": {}
+    },
+    {
+      "_comment": "Host h1 binding: IP=10.0.1.1, MAC=00:00:00:00:01:01, Port=1",
+      "table": "IngressProcess.establish_binding",
+      "match": {
+        "hdr.ipv4.srcAddr": "10.0.1.1",
+        "hdr.ethernet.srcAddr": "00:00:00:00:01:01",
+        "standard_metadata.ingress_port": 1
+      },
+      "action_name": "IngressProcess.forward_established",
+      "action_params": {
+        "dstAddr": "00:00:00:00:01:02",
+        "port": 2
+      }
+    },
+    {
+      "_comment": "Host h2 binding: IP=10.0.1.2, MAC=00:00:00:00:01:02, Port=2",
+      "table": "IngressProcess.establish_binding",
+      "match": {
+        "hdr.ipv4.srcAddr": "10.0.1.2",
+        "hdr.ethernet.srcAddr": "00:00:00:00:01:02",
+        "standard_metadata.ingress_port": 2
+      },
+      "action_name": "IngressProcess.forward_established",
+      "action_params": {
+        "dstAddr": "00:00:00:00:01:01",
+        "port": 1
+      }
+    },
+    {
+      "_comment": "DHCP Client Allowlist - Default action drops unknown clients",
+      "table": "IngressProcess.dhcp_allowlist",
+      "default_action": true,
+      "action_name": "IngressProcess.drop_unbound_non_dhcp",
+      "action_params": {}
+    },
+    {
+      "_comment": "Host h1 DHCP allowlist: MAC=00:00:00:00:01:01, Port=1",
+      "table": "IngressProcess.dhcp_allowlist",
+      "match": {
+        "hdr.ethernet.srcAddr": "00:00:00:00:01:01",
+        "standard_metadata.ingress_port": 1
+      },
+      "action_name": "IngressProcess.forward_dhcp",
+      "action_params": {
+        "dstAddr": "00:00:00:00:01:02",
+        "port": 2
+      }
+    },
+    {
+      "_comment": "Host h2 DHCP allowlist: MAC=00:00:00:00:01:02, Port=2",
+      "table": "IngressProcess.dhcp_allowlist",
+      "match": {
+        "hdr.ethernet.srcAddr": "00:00:00:00:01:02",
+        "standard_metadata.ingress_port": 2
+      },
+      "action_name": "IngressProcess.forward_dhcp",
+      "action_params": {
+        "dstAddr": "00:00:00:00:01:01",
+        "port": 1
+      }
+    }
+  ]
+}

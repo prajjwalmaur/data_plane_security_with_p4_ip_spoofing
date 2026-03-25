@@ -1,0 +1,208 @@
+# proto-file: p4/config/v1/p4info.proto
+# proto-message: p4.config.v1.P4Info
+
+pkg_info {
+  arch: "v1model"
+}
+tables {
+  preamble {
+    id: 34874672
+    name: "IngressProcess.establish_binding"
+    alias: "establish_binding"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.ipv4.srcAddr"
+    bitwidth: 32
+    match_type: EXACT
+  }
+  match_fields {
+    id: 2
+    name: "hdr.ethernet.srcAddr"
+    bitwidth: 48
+    match_type: EXACT
+  }
+  match_fields {
+    id: 3
+    name: "standard_metadata.ingress_port"
+    bitwidth: 9
+    match_type: EXACT
+  }
+  action_refs {
+    id: 31176470
+  }
+  action_refs {
+    id: 20794456
+  }
+  action_refs {
+    id: 21257015
+  }
+  initial_default_action {
+    action_id: 20794456
+  }
+  size: 1024
+}
+tables {
+  preamble {
+    id: 39004141
+    name: "IngressProcess.dhcp_allowlist"
+    alias: "dhcp_allowlist"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.ethernet.srcAddr"
+    bitwidth: 48
+    match_type: EXACT
+  }
+  match_fields {
+    id: 2
+    name: "standard_metadata.ingress_port"
+    bitwidth: 9
+    match_type: EXACT
+  }
+  action_refs {
+    id: 31346356
+  }
+  action_refs {
+    id: 32946148
+  }
+  action_refs {
+    id: 21257015
+  }
+  initial_default_action {
+    action_id: 32946148
+  }
+  size: 1024
+}
+tables {
+  preamble {
+    id: 40901429
+    name: "IngressProcess.tcp_connection_track"
+    alias: "tcp_connection_track"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.ipv4.srcAddr"
+    bitwidth: 32
+    match_type: EXACT
+  }
+  match_fields {
+    id: 2
+    name: "hdr.ipv4.dstAddr"
+    bitwidth: 32
+    match_type: EXACT
+  }
+  match_fields {
+    id: 3
+    name: "hdr.tcp.srcPort"
+    bitwidth: 16
+    match_type: EXACT
+  }
+  match_fields {
+    id: 4
+    name: "hdr.tcp.dstPort"
+    bitwidth: 16
+    match_type: EXACT
+  }
+  action_refs {
+    id: 21257015
+  }
+  initial_default_action {
+    action_id: 21257015
+  }
+  size: 2048
+}
+actions {
+  preamble {
+    id: 21257015
+    name: "NoAction"
+    alias: "NoAction"
+    annotations: "@noWarn(\"unused\")"
+  }
+}
+actions {
+  preamble {
+    id: 23547186
+    name: "IngressProcess.init_metadata"
+    alias: "init_metadata"
+  }
+}
+actions {
+  preamble {
+    id: 20794456
+    name: "IngressProcess.drop_spoofed"
+    alias: "drop_spoofed"
+  }
+}
+actions {
+  preamble {
+    id: 32946148
+    name: "IngressProcess.drop_unbound_non_dhcp"
+    alias: "drop_unbound_non_dhcp"
+  }
+}
+actions {
+  preamble {
+    id: 31934630
+    name: "IngressProcess.drop_invalid_protocol"
+    alias: "drop_invalid_protocol"
+  }
+}
+actions {
+  preamble {
+    id: 31176470
+    name: "IngressProcess.forward_established"
+    alias: "forward_established"
+  }
+  params {
+    id: 1
+    name: "dstAddr"
+    bitwidth: 48
+  }
+  params {
+    id: 2
+    name: "port"
+    bitwidth: 9
+  }
+}
+actions {
+  preamble {
+    id: 31346356
+    name: "IngressProcess.forward_dhcp"
+    alias: "forward_dhcp"
+  }
+  params {
+    id: 1
+    name: "dstAddr"
+    bitwidth: 48
+  }
+  params {
+    id: 2
+    name: "port"
+    bitwidth: 9
+  }
+}
+counters {
+  preamble {
+    id: 305227783
+    name: "IngressProcess.security_stats"
+    alias: "security_stats"
+  }
+  spec {
+    unit: PACKETS
+  }
+  size: 10
+}
+meters {
+  preamble {
+    id: 349392739
+    name: "IngressProcess.rate_limiter"
+    alias: "rate_limiter"
+  }
+  spec {
+    unit: PACKETS
+  }
+  size: 1024
+}
+type_info {
+}

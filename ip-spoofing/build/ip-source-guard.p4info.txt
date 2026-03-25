@@ -1,0 +1,145 @@
+# proto-file: p4/config/v1/p4info.proto
+# proto-message: p4.config.v1.P4Info
+
+pkg_info {
+  arch: "v1model"
+}
+tables {
+  preamble {
+    id: 38608484
+    name: "IngressProcess.estd_client"
+    alias: "estd_client"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.ipv4.srcAddr"
+    bitwidth: 32
+    match_type: EXACT
+  }
+  match_fields {
+    id: 2
+    name: "hdr.ethernet.srcAddr"
+    bitwidth: 48
+    match_type: EXACT
+  }
+  match_fields {
+    id: 3
+    name: "standard_metadata.ingress_port"
+    bitwidth: 9
+    match_type: EXACT
+  }
+  action_refs {
+    id: 22544513
+  }
+  action_refs {
+    id: 25039469
+  }
+  action_refs {
+    id: 21257015
+  }
+  initial_default_action {
+    action_id: 21257015
+  }
+  size: 1024
+}
+tables {
+  preamble {
+    id: 49236726
+    name: "IngressProcess.dhcp_client"
+    alias: "dhcp_client"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.ethernet.srcAddr"
+    bitwidth: 48
+    match_type: EXACT
+  }
+  match_fields {
+    id: 2
+    name: "standard_metadata.ingress_port"
+    bitwidth: 9
+    match_type: EXACT
+  }
+  action_refs {
+    id: 23506155
+  }
+  action_refs {
+    id: 32946148
+  }
+  action_refs {
+    id: 21257015
+  }
+  initial_default_action {
+    action_id: 21257015
+  }
+  size: 1024
+}
+actions {
+  preamble {
+    id: 21257015
+    name: "NoAction"
+    alias: "NoAction"
+    annotations: "@noWarn(\"unused\")"
+  }
+}
+actions {
+  preamble {
+    id: 25039469
+    name: "IngressProcess.drop_spoof"
+    alias: "drop_spoof"
+  }
+}
+actions {
+  preamble {
+    id: 32946148
+    name: "IngressProcess.drop_unbound_non_dhcp"
+    alias: "drop_unbound_non_dhcp"
+  }
+}
+actions {
+  preamble {
+    id: 22544513
+    name: "IngressProcess.pkt_fwd_established"
+    alias: "pkt_fwd_established"
+  }
+  params {
+    id: 1
+    name: "dstAddr"
+    bitwidth: 48
+  }
+  params {
+    id: 2
+    name: "port"
+    bitwidth: 9
+  }
+}
+actions {
+  preamble {
+    id: 23506155
+    name: "IngressProcess.pkt_fwd_dhcp"
+    alias: "pkt_fwd_dhcp"
+  }
+  params {
+    id: 1
+    name: "dstAddr"
+    bitwidth: 48
+  }
+  params {
+    id: 2
+    name: "port"
+    bitwidth: 9
+  }
+}
+counters {
+  preamble {
+    id: 309849093
+    name: "IngressProcess.ingress_stats"
+    alias: "ingress_stats"
+  }
+  spec {
+    unit: PACKETS
+  }
+  size: 4
+}
+type_info {
+}
